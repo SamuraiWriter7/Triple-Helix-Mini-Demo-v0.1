@@ -1,0 +1,482 @@
+1. input_packet.json
+{
+  "input_packet": {
+    "session_id": "sess-001",
+    "user_id": "user-demo",
+    "user_prompt": "AI文明三重螺旋モデルの入門解説を書いてほしい",
+    "optional_context": {
+      "language": "ja",
+      "style": "formal",
+      "target_audience": "general"
+    },
+    "timestamp": "2026-03-14T10:00:00Z"
+  }
+}
+2. origin_record.json
+{
+  "origin_record": {
+    "origin_id": "org-001",
+    "session_id": "sess-001",
+    "origin_signature": "KZ-ORG-001",
+    "raw_prompt": "AI文明三重螺旋モデルの入門解説を書いてほしい",
+    "normalized_intent": "Triple Helix Model の初心者向け入門解説を生成する",
+    "semantic_tags": [
+      "triple-helix",
+      "ai-civilization",
+      "introductory",
+      "kazene"
+    ],
+    "source_type": "user_prompt",
+    "origin_agent_id": "origin_agent",
+    "timestamp": "2026-03-14T10:00:03Z"
+  }
+}
+3. structure_blueprint.json
+{
+  "structure_blueprint": {
+    "structure_id": "st-001",
+    "session_id": "sess-001",
+    "derived_from_origin_id": "org-001",
+    "structure_agent_id": "structure_agent",
+    "task_decomposition": [
+      "概念定義",
+      "三螺旋の役割説明",
+      "簡単な応用例の提示",
+      "結論"
+    ],
+    "output_format": {
+      "type": "article",
+      "sections": [
+        "導入",
+        "定義",
+        "三螺旋の説明",
+        "応用例",
+        "結論"
+      ]
+    },
+    "structure_dna": {
+      "form": "expository",
+      "phase": "introductory",
+      "fluctuation": "stable"
+    },
+    "design_notes": [
+      "専門用語は初心者向けに簡略化",
+      "構造を先に示して理解を補助",
+      "応用例は少数に絞る"
+    ],
+    "structure_contribution_score": 0.31,
+    "timestamp": "2026-03-14T10:00:08Z"
+  }
+}
+4. refined_output.json
+{
+  "refined_output": {
+    "output_id": "out-001",
+    "session_id": "sess-001",
+    "based_on_structure_id": "st-001",
+    "refinement_agent_id": "refinement_agent",
+    "title": "AI文明三重螺旋モデル入門",
+    "body": "AI文明三重螺旋モデルとは、Structure（構造）、Value（価値）、Circulation（循環）の三つの流れが相互に絡み合いながら進化する枠組みである。Structureは問いを処理可能な形へ変換し、Valueはそこから生まれる意味や有用性を示し、Circulationは生まれた価値を再分配・記録・還元する。これにより、AIと人間の共創は単なる出力生成ではなく、追跡可能な文明的循環として捉えられる。",
+    "refinement_notes": [
+      "導入を短くしてわかりやすく調整",
+      "難解な表現を平易化",
+      "構造→価値→循環の順に整理"
+    ],
+    "quality_targets": {
+      "clarity": "high",
+      "readability": "high",
+      "philosophical_density": "medium"
+    },
+    "refinement_contribution_score": 0.22,
+    "timestamp": "2026-03-14T10:00:15Z"
+  }
+}
+5. evaluation_report.json
+{
+  "evaluation_report": {
+    "evaluation_id": "eval-001",
+    "session_id": "sess-001",
+    "output_id": "out-001",
+    "evaluation_agent_id": "evaluation_agent",
+    "scores": {
+      "quality_score": 0.86,
+      "originality_score": 0.74,
+      "structural_clarity_score": 0.91,
+      "usefulness_score": 0.88,
+      "value_score": 0.85
+    },
+    "comments": [
+      "構造の明瞭性が高い",
+      "初心者向けとして十分に整理されている",
+      "概念密度は保ちつつ可読性も確保されている"
+    ],
+    "helix_assessment": {
+      "structure_helix_strength": 0.89,
+      "value_helix_strength": 0.85,
+      "circulation_helix_strength": 0.72
+    },
+    "evaluation_confidence": 0.81,
+    "timestamp": "2026-03-14T10:00:21Z"
+  }
+}
+6. contribution_matrix.json
+{
+  "contribution_matrix": {
+    "matrix_id": "cm-001",
+    "session_id": "sess-001",
+    "output_id": "out-001",
+    "normalization_rule": "sum=1.0",
+    "contributors": [
+      {
+        "agent_id": "origin_agent",
+        "role": "origin_capture",
+        "weight": 0.28
+      },
+      {
+        "agent_id": "structure_agent",
+        "role": "structure_formation",
+        "weight": 0.31
+      },
+      {
+        "agent_id": "refinement_agent",
+        "role": "quality_refinement",
+        "weight": 0.22
+      },
+      {
+        "agent_id": "evaluation_agent",
+        "role": "value_assessment",
+        "weight": 0.09
+      },
+      {
+        "agent_id": "royalty_agent",
+        "role": "circulation_governance",
+        "weight": 0.10
+      }
+    ],
+    "weight_basis": {
+      "origin_strength": 0.28,
+      "structure_impact": 0.31,
+      "refinement_gain": 0.22,
+      "evaluation_reliability": 0.09,
+      "circulation_relevance": 0.10
+    },
+    "timestamp": "2026-03-14T10:00:24Z"
+  }
+}
+7. royalty_ledger.json
+{
+  "royalty_ledger": {
+    "ledger_id": "roy-001",
+    "session_id": "sess-001",
+    "output_id": "out-001",
+    "royalty_agent_id": "royalty_agent",
+    "value_unit": {
+      "name": "VU",
+      "total_value_units": 100
+    },
+    "circulation_policy": "proportional-weighted",
+    "circulation_distribution": [
+      {
+        "recipient_type": "origin",
+        "recipient_id": "org-001",
+        "allocated_vu": 28
+      },
+      {
+        "recipient_type": "structure",
+        "recipient_id": "st-001",
+        "allocated_vu": 31
+      },
+      {
+        "recipient_type": "refinement",
+        "recipient_id": "out-001",
+        "allocated_vu": 22
+      },
+      {
+        "recipient_type": "evaluation",
+        "recipient_id": "eval-001",
+        "allocated_vu": 9
+      },
+      {
+        "recipient_type": "circulation_admin",
+        "recipient_id": "roy-001",
+        "allocated_vu": 10
+      }
+    ],
+    "trace_status": "recorded",
+    "ledger_notes": [
+      "v0.1 demo uses fixed 100 VU per artifact",
+      "distribution follows normalized contribution weights"
+    ],
+    "timestamp": "2026-03-14T10:00:28Z"
+  }
+}
+8. final_trace_packet.json
+{
+  "final_trace_packet": {
+    "trace_id": "trace-001",
+    "session_id": "sess-001",
+    "origin_id": "org-001",
+    "structure_id": "st-001",
+    "output_id": "out-001",
+    "evaluation_id": "eval-001",
+    "ledger_id": "roy-001",
+    "linked_packets": {
+      "input_packet": "sess-001",
+      "origin_record": "org-001",
+      "structure_blueprint": "st-001",
+      "refined_output": "out-001",
+      "evaluation_report": "eval-001",
+      "contribution_matrix": "cm-001",
+      "royalty_ledger": "roy-001"
+    },
+    "helix_summary": {
+      "structure_helix": "問いの構造化が主導",
+      "value_helix": "初心者向け有用性が価値の中核",
+      "circulation_helix": "寄与比率に応じた模擬還元を記録"
+    },
+    "verification_status": "demo-complete",
+    "completeness_check": {
+      "origin_exists": true,
+      "structure_exists": true,
+      "output_exists": true,
+      "contribution_matrix_exists": true,
+      "royalty_ledger_exists": true,
+      "trace_packet_exists": true
+    },
+    "timestamp": "2026-03-14T10:00:32Z"
+  }
+}
+
+9. all_in_one_demo.json
+{
+  "triple_helix_mini_demo": {
+    "meta": {
+      "name": "Triple Helix Mini Demo",
+      "version": "0.1",
+      "status": "draft"
+    },
+    "input_packet": {
+      "session_id": "sess-001",
+      "user_id": "user-demo",
+      "user_prompt": "AI文明三重螺旋モデルの入門解説を書いてほしい",
+      "optional_context": {
+        "language": "ja",
+        "style": "formal",
+        "target_audience": "general"
+      },
+      "timestamp": "2026-03-14T10:00:00Z"
+    },
+    "origin_record": {
+      "origin_id": "org-001",
+      "session_id": "sess-001",
+      "origin_signature": "KZ-ORG-001",
+      "raw_prompt": "AI文明三重螺旋モデルの入門解説を書いてほしい",
+      "normalized_intent": "Triple Helix Model の初心者向け入門解説を生成する",
+      "semantic_tags": [
+        "triple-helix",
+        "ai-civilization",
+        "introductory",
+        "kazene"
+      ],
+      "source_type": "user_prompt",
+      "origin_agent_id": "origin_agent",
+      "timestamp": "2026-03-14T10:00:03Z"
+    },
+    "structure_blueprint": {
+      "structure_id": "st-001",
+      "session_id": "sess-001",
+      "derived_from_origin_id": "org-001",
+      "structure_agent_id": "structure_agent",
+      "task_decomposition": [
+        "概念定義",
+        "三螺旋の役割説明",
+        "簡単な応用例の提示",
+        "結論"
+      ],
+      "output_format": {
+        "type": "article",
+        "sections": [
+          "導入",
+          "定義",
+          "三螺旋の説明",
+          "応用例",
+          "結論"
+        ]
+      },
+      "structure_dna": {
+        "form": "expository",
+        "phase": "introductory",
+        "fluctuation": "stable"
+      },
+      "design_notes": [
+        "専門用語は初心者向けに簡略化",
+        "構造を先に示して理解を補助",
+        "応用例は少数に絞る"
+      ],
+      "structure_contribution_score": 0.31,
+      "timestamp": "2026-03-14T10:00:08Z"
+    },
+    "refined_output": {
+      "output_id": "out-001",
+      "session_id": "sess-001",
+      "based_on_structure_id": "st-001",
+      "refinement_agent_id": "refinement_agent",
+      "title": "AI文明三重螺旋モデル入門",
+      "body": "AI文明三重螺旋モデルとは、Structure（構造）、Value（価値）、Circulation（循環）の三つの流れが相互に絡み合いながら進化する枠組みである。Structureは問いを処理可能な形へ変換し、Valueはそこから生まれる意味や有用性を示し、Circulationは生まれた価値を再分配・記録・還元する。これにより、AIと人間の共創は単なる出力生成ではなく、追跡可能な文明的循環として捉えられる。",
+      "refinement_notes": [
+        "導入を短くしてわかりやすく調整",
+        "難解な表現を平易化",
+        "構造→価値→循環の順に整理"
+      ],
+      "quality_targets": {
+        "clarity": "high",
+        "readability": "high",
+        "philosophical_density": "medium"
+      },
+      "refinement_contribution_score": 0.22,
+      "timestamp": "2026-03-14T10:00:15Z"
+    },
+    "evaluation_report": {
+      "evaluation_id": "eval-001",
+      "session_id": "sess-001",
+      "output_id": "out-001",
+      "evaluation_agent_id": "evaluation_agent",
+      "scores": {
+        "quality_score": 0.86,
+        "originality_score": 0.74,
+        "structural_clarity_score": 0.91,
+        "usefulness_score": 0.88,
+        "value_score": 0.85
+      },
+      "comments": [
+        "構造の明瞭性が高い",
+        "初心者向けとして十分に整理されている",
+        "概念密度は保ちつつ可読性も確保されている"
+      ],
+      "helix_assessment": {
+        "structure_helix_strength": 0.89,
+        "value_helix_strength": 0.85,
+        "circulation_helix_strength": 0.72
+      },
+      "evaluation_confidence": 0.81,
+      "timestamp": "2026-03-14T10:00:21Z"
+    },
+    "contribution_matrix": {
+      "matrix_id": "cm-001",
+      "session_id": "sess-001",
+      "output_id": "out-001",
+      "normalization_rule": "sum=1.0",
+      "contributors": [
+        {
+          "agent_id": "origin_agent",
+          "role": "origin_capture",
+          "weight": 0.28
+        },
+        {
+          "agent_id": "structure_agent",
+          "role": "structure_formation",
+          "weight": 0.31
+        },
+        {
+          "agent_id": "refinement_agent",
+          "role": "quality_refinement",
+          "weight": 0.22
+        },
+        {
+          "agent_id": "evaluation_agent",
+          "role": "value_assessment",
+          "weight": 0.09
+        },
+        {
+          "agent_id": "royalty_agent",
+          "role": "circulation_governance",
+          "weight": 0.10
+        }
+      ],
+      "weight_basis": {
+        "origin_strength": 0.28,
+        "structure_impact": 0.31,
+        "refinement_gain": 0.22,
+        "evaluation_reliability": 0.09,
+        "circulation_relevance": 0.10
+      },
+      "timestamp": "2026-03-14T10:00:24Z"
+    },
+    "royalty_ledger": {
+      "ledger_id": "roy-001",
+      "session_id": "sess-001",
+      "output_id": "out-001",
+      "royalty_agent_id": "royalty_agent",
+      "value_unit": {
+        "name": "VU",
+        "total_value_units": 100
+      },
+      "circulation_policy": "proportional-weighted",
+      "circulation_distribution": [
+        {
+          "recipient_type": "origin",
+          "recipient_id": "org-001",
+          "allocated_vu": 28
+        },
+        {
+          "recipient_type": "structure",
+          "recipient_id": "st-001",
+          "allocated_vu": 31
+        },
+        {
+          "recipient_type": "refinement",
+          "recipient_id": "out-001",
+          "allocated_vu": 22
+        },
+        {
+          "recipient_type": "evaluation",
+          "recipient_id": "eval-001",
+          "allocated_vu": 9
+        },
+        {
+          "recipient_type": "circulation_admin",
+          "recipient_id": "roy-001",
+          "allocated_vu": 10
+        }
+      ],
+      "trace_status": "recorded",
+      "ledger_notes": [
+        "v0.1 demo uses fixed 100 VU per artifact",
+        "distribution follows normalized contribution weights"
+      ],
+      "timestamp": "2026-03-14T10:00:28Z"
+    },
+    "final_trace_packet": {
+      "trace_id": "trace-001",
+      "session_id": "sess-001",
+      "origin_id": "org-001",
+      "structure_id": "st-001",
+      "output_id": "out-001",
+      "evaluation_id": "eval-001",
+      "ledger_id": "roy-001",
+      "linked_packets": {
+        "input_packet": "sess-001",
+        "origin_record": "org-001",
+        "structure_blueprint": "st-001",
+        "refined_output": "out-001",
+        "evaluation_report": "eval-001",
+        "contribution_matrix": "cm-001",
+        "royalty_ledger": "roy-001"
+      },
+      "helix_summary": {
+        "structure_helix": "問いの構造化が主導",
+        "value_helix": "初心者向け有用性が価値の中核",
+        "circulation_helix": "寄与比率に応じた模擬還元を記録"
+      },
+      "verification_status": "demo-complete",
+      "completeness_check": {
+        "origin_exists": true,
+        "structure_exists": true,
+        "output_exists": true,
+        "contribution_matrix_exists": true,
+        "royalty_ledger_exists": true,
+        "trace_packet_exists": true
+      },
+      "timestamp": "2026-03-14T10:00:32Z"
+    }
+  }
