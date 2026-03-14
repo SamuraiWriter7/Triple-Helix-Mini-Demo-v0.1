@@ -1,0 +1,98 @@
+import json
+import math
+from pathlib import Path
+from typing import Any
+
+from jsonschema import Draft202012Validator
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def validate_with_schema(schema_data: dict[str, Any], input_data: dict[str, Any]) -> list[str]:
+    validator = Draft202012Validator(schema_data)
+    errors = sorted(validator.iter_errors(input_data), key=lambda e: list(e.path))
+    messages: list[str] = []
+
+    for error in errors:
+        path = ".".join(str(p) for p in error.path)
+        if path:
+            messages.append(f"[SchemaError] {path}: {error.message}")
+        else:
+            messages.append(f"[SchemaError] {error.message}")
+
+    return messages
+
+
+def approx_equal(a: float, b: float, tol: float = 1e-9) -> bool:
+    return math.isclose(a, b, rel_tol=tol, abs_tol=tol)
+
+
+def validate_business_rules(input_data: dict[str, Any]) -> list[str]:
+    messages: list[str] = []
+
+    demo = input_data.get("triple_helix_mini_demo", {})
+
+    contribution_matrix = demo.get("contribution_matrix", {})
+    contributors = contribution_matrix.get("contributors", [])
+    total_weight = sum(c.get("weight", 0.0) for c in contributors)
+
+    if not approx_equal(total_weight, 1.0):
+        messages.append(
+            f"[RuleError] contribution_matrix.contributors[*].weight sum must be 1.0, got {total_weight}"
+        )
+
+    royalty_ledger = demo.get("royalty_ledger", {})
+    value_unit = royalty_ledger.get("value_unit", {})
+    total_value_units = value_unit.get("total_value_units")
+    circulation_distribution = royalty_ledger.get("circulation_distribution", [])
+    allocated_sum = sum(item.get("allocated_vu", 0) for item in circulation_distribution)
+
+    if isinstance(total_value_units, int):
+        if allocated_sum != total_value_units:
+            messages.append(
+                f"[RuleError] circulation_distribution allocated_vu sum ({allocated_sum}) "
+                f"does not match total_value_units ({total_value_units})"
+            )
+    else:
+        messages.append("[RuleError] royalty_ledger.value_unit.total_value_units must be an integer")
+
+    final_trace_packet = demo.get("final_trace_packet", {})
+    linked_packets = final_trace_packet.get("linked_packets", {})
+
+    expected_pairs = {
+        "origin_record": demo.get("origin_record", {}).get("origin_id"),
+        "structure_blueprint": demo.get("structure_blueprint", {}).get("structure_id"),
+        "refined_output": demo.get("refined_output", {}).get("output_id"),
+        "evaluation_report": demo.get("evaluation_report", {}).get("evaluation_id"),
+        "royalty_ledger": demo.get("royalty_ledger", {}).get("ledger_id"),
+        "contribution_matrix": demo.get("contribution_matrix", {}).get("matrix_id"),
+    }
+
+    for key, expected_id in expected_pairs.items():
+        actual_id = linked_packets.get(key)
+        if actual_id != expected_id:
+            messages.append(
+                f"[RuleError] linked_packets.{key} ({actual_id}) does not match actual id ({expected_id})"
+            )
+
+    expected_session_id = demo.get("input_packet", {}).get("session_id")
+    session_fields = {
+        "origin_record.session_id": demo.get("origin_record", {}).get("session_id"),
+        "structure_blueprint.session_id": demo.get("structure_blueprint", {}).get("session_id"),
+        "refined_output.session_id": demo.get("refined_output", {}).get("session_id"),
+        "evaluation_report.session_id": demo.get("evaluation_report", {}).get("session_id"),
+        "contribution_matrix.session_id": demo.get("contribution_matrix", {}).get("session_id"),
+        "royalty_ledger.session_id": demo.get("royalty_ledger", {}).get("session_id"),
+        "final_trace_packet.session_id": demo.get("final_trace_packet", {}).get("session_id"),
+    }
+
+    for field_name, actual_session_id in session_fields.items():
+        if actual_session_id != expected_session_id:
+            messages.append(
+                f"[RuleError] {field_name} ({actual_session_id}) does not match input_packet.session_id ({expected_session_id})"
+            )
+
+    return messages
