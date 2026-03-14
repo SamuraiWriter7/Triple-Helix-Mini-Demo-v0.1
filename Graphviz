@@ -1,0 +1,49 @@
+digraph TripleHelixMiniDemo {
+  graph [
+    rankdir=LR,
+    fontsize=12,
+    labelloc="t",
+    label="Triple Helix Mini Demo v0.1\nStructure - Value - Circulation",
+    splines=true,
+    overlap=false
+  ];
+
+  node [shape=box, style="rounded"];
+  edge [fontsize=10];
+
+  UserInput [label="User Input\nQuestion / Prompt"];
+  OriginAgent [label="Origin Agent\nRecords origin\norigin_id / signature"];
+  StructureAgent [label="Structure Agent\nBuilds structure\nstructure_id / blueprint"];
+  RefinementAgent [label="Refinement Agent\nImproves output\nclarity / quality"];
+  EvaluationAgent [label="Evaluation Agent\nEstimates value\nscores / contribution"];
+  RoyaltyAgent [label="Royalty Agent\nCreates circulation ledger\nroyalty_ledger"];
+  FinalTrace [label="Final Trace Packet\ntrace_id / full record"];
+
+  UserInput -> OriginAgent [label="raw prompt"];
+  OriginAgent -> StructureAgent [label="normalized intent"];
+  StructureAgent -> RefinementAgent [label="draft structure"];
+  RefinementAgent -> EvaluationAgent [label="refined output"];
+  EvaluationAgent -> RoyaltyAgent [label="value score + contribution matrix"];
+  RoyaltyAgent -> FinalTrace [label="ledger + circulation map"];
+
+  subgraph cluster_structure {
+    label="Structure Helix";
+    style="rounded,dashed";
+    OriginAgent;
+    StructureAgent;
+  }
+
+  subgraph cluster_value {
+    label="Value Helix";
+    style="rounded,dashed";
+    RefinementAgent;
+    EvaluationAgent;
+  }
+
+  subgraph cluster_circulation {
+    label="Circulation Helix";
+    style="rounded,dashed";
+    RoyaltyAgent;
+    FinalTrace;
+  }
+}
