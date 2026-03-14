@@ -1,0 +1,164 @@
+project/
+  schema/
+    triple-helix-mini-demo-v0.1.schema.json
+  examples/
+    all_in_one_demo.json
+  validate_demo.py
+
+pip install jsonschema
+
+import json
+import math
+from pathlib import Path
+from typing import Any
+
+from jsonschema import Draft202012Validator
+
+
+SCHEMA_PATH = Path("schema/triple-helix-mini-demo-v0.1.schema.json")
+DATA_PATH = Path("examples/all_in_one_demo.json")
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def validate_with_schema(schema_data: dict[str, Any], input_data: dict[str, Any]) -> list[str]:
+    """
+    JSON Schema で形式検証を行い、エラーメッセージの一覧を返す。
+    """
+    validator = Draft202012Validator(schema_data)
+    errors = sorted(validator.iter_errors(input_data), key=lambda e: list(e.path))
+    messages: list[str] = []
+
+    for error in errors:
+        path = ".".join(str(p) for p in error.path)
+        if path:
+            messages.append(f"[SchemaError] {path}: {error.message}")
+        else:
+            messages.append(f"[SchemaError] {error.message}")
+
+    return messages
+
+
+def approx_equal(a: float, b: float, tol: float = 1e-9) -> bool:
+    return math.isclose(a, b, rel_tol=tol, abs_tol=tol)
+
+
+def validate_business_rules(input_data: dict[str, Any]) -> list[str]:
+    """
+    JSON Schema では表現しづらい追加ルールを検証する。
+    """
+    messages: list[str] = []
+
+    demo = input_data.get("triple_helix_mini_demo", {})
+
+    # --- 1. contribution weight の合計チェック ---
+    contribution_matrix = demo.get("contribution_matrix", {})
+    contributors = contribution_matrix.get("contributors", [])
+    total_weight = sum(c.get("weight", 0.0) for c in contributors)
+
+    if not approx_equal(total_weight, 1.0):
+        messages.append(
+            f"[RuleError] contribution_matrix.contributors[*].weight の合計が 1.0 ではありません: {total_weight}"
+        )
+
+    # --- 2. royalty ledger の配分合計チェック ---
+    royalty_ledger = demo.get("royalty_ledger", {})
+    value_unit = royalty_ledger.get("value_unit", {})
+    total_value_units = value_unit.get("total_value_units")
+    circulation_distribution = royalty_ledger.get("circulation_distribution", [])
+    allocated_sum = sum(item.get("allocated_vu", 0) for item in circulation_distribution)
+
+    if isinstance(total_value_units, int):
+        if allocated_sum != total_value_units:
+            messages.append(
+                f"[RuleError] circulation_distribution の allocated_vu 合計 ({allocated_sum}) "
+                f"が total_value_units ({total_value_units}) と一致しません"
+            )
+    else:
+        messages.append("[RuleError] royalty_ledger.value_unit.total_value_units が整数ではありません")
+
+    # --- 3. linked packet の ID 整合性チェック ---
+    final_trace_packet = demo.get("final_trace_packet", {})
+    linked_packets = final_trace_packet.get("linked_packets", {})
+
+    expected_pairs = {
+        "origin_record": demo.get("origin_record", {}).get("origin_id"),
+        "structure_blueprint": demo.get("structure_blueprint", {}).get("structure_id"),
+        "refined_output": demo.get("refined_output", {}).get("output_id"),
+        "evaluation_report": demo.get("evaluation_report", {}).get("evaluation_id"),
+        "royalty_ledger": demo.get("royalty_ledger", {}).get("ledger_id"),
+        "contribution_matrix": demo.get("contribution_matrix", {}).get("matrix_id"),
+    }
+
+    for key, expected_id in expected_pairs.items():
+        actual_id = linked_packets.get(key)
+        if expected_id != actual_id:
+            messages.append(
+                f"[RuleError] final_trace_packet.linked_packets.{key} ({actual_id}) "
+                f"が実体のID ({expected_id}) と一致しません"
+            )
+
+    # --- 4. final_trace_packet の主要ID整合性チェック ---
+    trace_checks = {
+        "origin_id": demo.get("origin_record", {}).get("origin_id"),
+        "structure_id": demo.get("structure_blueprint", {}).get("structure_id"),
+        "output_id": demo.get("refined_output", {}).get("output_id"),
+        "evaluation_id": demo.get("evaluation_report", {}).get("evaluation_id"),
+        "ledger_id": demo.get("royalty_ledger", {}).get("ledger_id"),
+    }
+
+    for field, expected_value in trace_checks.items():
+        actual_value = final_trace_packet.get(field)
+        if actual_value != expected_value:
+            messages.append(
+                f"[RuleError] final_trace_packet.{field} ({actual_value}) "
+                f"が期待値 ({expected_value}) と一致しません"
+            )
+
+    # --- 5. session_id の横断整合性チェック ---
+    expected_session_id = demo.get("input_packet", {}).get("session_id")
+    session_fields = {
+        "origin_record.session_id": demo.get("origin_record", {}).get("session_id"),
+        "structure_blueprint.session_id": demo.get("structure_blueprint", {}).get("session_id"),
+        "refined_output.session_id": demo.get("refined_output", {}).get("session_id"),
+        "evaluation_report.session_id": demo.get("evaluation_report", {}).get("session_id"),
+        "contribution_matrix.session_id": demo.get("contribution_matrix", {}).get("session_id"),
+        "royalty_ledger.session_id": demo.get("royalty_ledger", {}).get("session_id"),
+        "final_trace_packet.session_id": demo.get("final_trace_packet", {}).get("session_id"),
+    }
+
+    for field_name, actual_session_id in session_fields.items():
+        if actual_session_id != expected_session_id:
+            messages.append(
+                f"[RuleError] {field_name} ({actual_session_id}) が input_packet.session_id ({expected_session_id}) と一致しません"
+            )
+
+    return messages
+
+
+def main() -> None:
+    schema_data = load_json(SCHEMA_PATH)
+    input_data = load_json(DATA_PATH)
+
+    schema_errors = validate_with_schema(schema_data, input_data)
+    business_rule_errors = validate_business_rules(input_data)
+
+    all_errors = schema_errors + business_rule_errors
+
+    if all_errors:
+        print("❌ Validation failed")
+        print("-" * 60)
+        for msg in all_errors:
+            print(msg)
+    else:
+        print("✅ Validation passed")
+        print("- JSON Schema: OK")
+        print("- Business Rules: OK")
+        print("- Triple Helix Mini Demo v0.1 is structurally consistent")
+
+
+if __name__ == "__main__":
+    main()
