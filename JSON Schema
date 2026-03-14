@@ -1,0 +1,833 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/triple-helix-mini-demo-v0.1.schema.json",
+  "title": "Triple Helix Mini Demo v0.1",
+  "description": "Unified JSON Schema for the Triple Helix Mini Demo v0.1 in the Kazene Royalty OS framework.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "triple_helix_mini_demo"
+  ],
+  "properties": {
+    "triple_helix_mini_demo": {
+      "$ref": "#/$defs/TripleHelixMiniDemo"
+    }
+  },
+  "$defs": {
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "NonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+
+    "Score01": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+
+    "Meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "Triple Helix Mini Demo"
+        },
+        "version": {
+          "type": "string",
+          "const": "0.1"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "experimental", "stable"]
+        }
+      }
+    },
+
+    "OptionalContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "type": "string"
+        },
+        "style": {
+          "type": "string"
+        },
+        "target_audience": {
+          "type": "string"
+        }
+      }
+    },
+
+    "InputPacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "user_id",
+        "user_prompt",
+        "timestamp"
+      ],
+      "properties": {
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "user_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "user_prompt": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "optional_context": {
+          "$ref": "#/$defs/OptionalContext"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "OriginRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin_id",
+        "session_id",
+        "origin_signature",
+        "raw_prompt",
+        "normalized_intent",
+        "semantic_tags",
+        "source_type",
+        "origin_agent_id",
+        "timestamp"
+      ],
+      "properties": {
+        "origin_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "origin_signature": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "raw_prompt": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "normalized_intent": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "semantic_tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "source_type": {
+          "type": "string",
+          "enum": ["user_prompt", "system_seed", "agent_generated", "external_input"]
+        },
+        "origin_agent_id": {
+          "type": "string",
+          "const": "origin_agent"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "OutputFormat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "sections"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["article", "essay", "report", "memo", "spec"]
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        }
+      }
+    },
+
+    "StructureDNA": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "form",
+        "phase",
+        "fluctuation"
+      ],
+      "properties": {
+        "form": {
+          "type": "string",
+          "enum": ["expository", "narrative", "analytical", "dialogic", "hybrid"]
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["introductory", "intermediate", "advanced", "experimental"]
+        },
+        "fluctuation": {
+          "type": "string",
+          "enum": ["stable", "adaptive", "volatile"]
+        }
+      }
+    },
+
+    "StructureBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structure_id",
+        "session_id",
+        "derived_from_origin_id",
+        "structure_agent_id",
+        "task_decomposition",
+        "output_format",
+        "structure_dna",
+        "design_notes",
+        "structure_contribution_score",
+        "timestamp"
+      ],
+      "properties": {
+        "structure_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "derived_from_origin_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "structure_agent_id": {
+          "type": "string",
+          "const": "structure_agent"
+        },
+        "task_decomposition": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "output_format": {
+          "$ref": "#/$defs/OutputFormat"
+        },
+        "structure_dna": {
+          "$ref": "#/$defs/StructureDNA"
+        },
+        "design_notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "structure_contribution_score": {
+          "$ref": "#/$defs/Score01"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "QualityTargets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clarity",
+        "readability",
+        "philosophical_density"
+      ],
+      "properties": {
+        "clarity": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "readability": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "philosophical_density": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        }
+      }
+    },
+
+    "RefinedOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_id",
+        "session_id",
+        "based_on_structure_id",
+        "refinement_agent_id",
+        "title",
+        "body",
+        "refinement_notes",
+        "quality_targets",
+        "refinement_contribution_score",
+        "timestamp"
+      ],
+      "properties": {
+        "output_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "based_on_structure_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "refinement_agent_id": {
+          "type": "string",
+          "const": "refinement_agent"
+        },
+        "title": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "body": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "refinement_notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "quality_targets": {
+          "$ref": "#/$defs/QualityTargets"
+        },
+        "refinement_contribution_score": {
+          "$ref": "#/$defs/Score01"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "EvaluationScores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quality_score",
+        "originality_score",
+        "structural_clarity_score",
+        "usefulness_score",
+        "value_score"
+      ],
+      "properties": {
+        "quality_score": {
+          "$ref": "#/$defs/Score01"
+        },
+        "originality_score": {
+          "$ref": "#/$defs/Score01"
+        },
+        "structural_clarity_score": {
+          "$ref": "#/$defs/Score01"
+        },
+        "usefulness_score": {
+          "$ref": "#/$defs/Score01"
+        },
+        "value_score": {
+          "$ref": "#/$defs/Score01"
+        }
+      }
+    },
+
+    "HelixAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structure_helix_strength",
+        "value_helix_strength",
+        "circulation_helix_strength"
+      ],
+      "properties": {
+        "structure_helix_strength": {
+          "$ref": "#/$defs/Score01"
+        },
+        "value_helix_strength": {
+          "$ref": "#/$defs/Score01"
+        },
+        "circulation_helix_strength": {
+          "$ref": "#/$defs/Score01"
+        }
+      }
+    },
+
+    "EvaluationReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evaluation_id",
+        "session_id",
+        "output_id",
+        "evaluation_agent_id",
+        "scores",
+        "comments",
+        "helix_assessment",
+        "evaluation_confidence",
+        "timestamp"
+      ],
+      "properties": {
+        "evaluation_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "output_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "evaluation_agent_id": {
+          "type": "string",
+          "const": "evaluation_agent"
+        },
+        "scores": {
+          "$ref": "#/$defs/EvaluationScores"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "helix_assessment": {
+          "$ref": "#/$defs/HelixAssessment"
+        },
+        "evaluation_confidence": {
+          "$ref": "#/$defs/Score01"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "Contributor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "role",
+        "weight"
+      ],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "enum": [
+            "origin_agent",
+            "structure_agent",
+            "refinement_agent",
+            "evaluation_agent",
+            "royalty_agent"
+          ]
+        },
+        "role": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "weight": {
+          "$ref": "#/$defs/Score01"
+        }
+      }
+    },
+
+    "WeightBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin_strength",
+        "structure_impact",
+        "refinement_gain",
+        "evaluation_reliability",
+        "circulation_relevance"
+      ],
+      "properties": {
+        "origin_strength": {
+          "$ref": "#/$defs/Score01"
+        },
+        "structure_impact": {
+          "$ref": "#/$defs/Score01"
+        },
+        "refinement_gain": {
+          "$ref": "#/$defs/Score01"
+        },
+        "evaluation_reliability": {
+          "$ref": "#/$defs/Score01"
+        },
+        "circulation_relevance": {
+          "$ref": "#/$defs/Score01"
+        }
+      }
+    },
+
+    "ContributionMatrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "matrix_id",
+        "session_id",
+        "output_id",
+        "normalization_rule",
+        "contributors",
+        "weight_basis",
+        "timestamp"
+      ],
+      "properties": {
+        "matrix_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "output_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "normalization_rule": {
+          "type": "string",
+          "enum": ["sum=1.0"]
+        },
+        "contributors": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/Contributor"
+          }
+        },
+        "weight_basis": {
+          "$ref": "#/$defs/WeightBasis"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "ValueUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "total_value_units"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "VU"
+        },
+        "total_value_units": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+
+    "CirculationDistributionItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recipient_type",
+        "recipient_id",
+        "allocated_vu"
+      ],
+      "properties": {
+        "recipient_type": {
+          "type": "string",
+          "enum": [
+            "origin",
+            "structure",
+            "refinement",
+            "evaluation",
+            "circulation_admin"
+          ]
+        },
+        "recipient_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "allocated_vu": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+
+    "RoyaltyLedger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ledger_id",
+        "session_id",
+        "output_id",
+        "royalty_agent_id",
+        "value_unit",
+        "circulation_policy",
+        "circulation_distribution",
+        "trace_status",
+        "ledger_notes",
+        "timestamp"
+      ],
+      "properties": {
+        "ledger_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "output_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "royalty_agent_id": {
+          "type": "string",
+          "const": "royalty_agent"
+        },
+        "value_unit": {
+          "$ref": "#/$defs/ValueUnit"
+        },
+        "circulation_policy": {
+          "type": "string",
+          "enum": [
+            "proportional-weighted",
+            "origin-favored",
+            "structure-favored"
+          ]
+        },
+        "circulation_distribution": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/CirculationDistributionItem"
+          }
+        },
+        "trace_status": {
+          "type": "string",
+          "enum": ["recorded", "pending", "failed"]
+        },
+        "ledger_notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonEmptyString"
+          }
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "LinkedPackets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_packet",
+        "origin_record",
+        "structure_blueprint",
+        "refined_output",
+        "evaluation_report",
+        "contribution_matrix",
+        "royalty_ledger"
+      ],
+      "properties": {
+        "input_packet": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "origin_record": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "structure_blueprint": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "refined_output": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "evaluation_report": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "contribution_matrix": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "royalty_ledger": {
+          "$ref": "#/$defs/NonEmptyString"
+        }
+      }
+    },
+
+    "HelixSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structure_helix",
+        "value_helix",
+        "circulation_helix"
+      ],
+      "properties": {
+        "structure_helix": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "value_helix": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "circulation_helix": {
+          "$ref": "#/$defs/NonEmptyString"
+        }
+      }
+    },
+
+    "CompletenessCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin_exists",
+        "structure_exists",
+        "output_exists",
+        "contribution_matrix_exists",
+        "royalty_ledger_exists",
+        "trace_packet_exists"
+      ],
+      "properties": {
+        "origin_exists": {
+          "type": "boolean"
+        },
+        "structure_exists": {
+          "type": "boolean"
+        },
+        "output_exists": {
+          "type": "boolean"
+        },
+        "contribution_matrix_exists": {
+          "type": "boolean"
+        },
+        "royalty_ledger_exists": {
+          "type": "boolean"
+        },
+        "trace_packet_exists": {
+          "type": "boolean"
+        }
+      }
+    },
+
+    "FinalTracePacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace_id",
+        "session_id",
+        "origin_id",
+        "structure_id",
+        "output_id",
+        "evaluation_id",
+        "ledger_id",
+        "linked_packets",
+        "helix_summary",
+        "verification_status",
+        "completeness_check",
+        "timestamp"
+      ],
+      "properties": {
+        "trace_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "session_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "origin_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "structure_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "output_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "evaluation_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "ledger_id": {
+          "$ref": "#/$defs/NonEmptyString"
+        },
+        "linked_packets": {
+          "$ref": "#/$defs/LinkedPackets"
+        },
+        "helix_summary": {
+          "$ref": "#/$defs/HelixSummary"
+        },
+        "verification_status": {
+          "type": "string",
+          "enum": ["demo-complete", "partial", "failed"]
+        },
+        "completeness_check": {
+          "$ref": "#/$defs/CompletenessCheck"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+
+    "TripleHelixMiniDemo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "meta",
+        "input_packet",
+        "origin_record",
+        "structure_blueprint",
+        "refined_output",
+        "evaluation_report",
+        "contribution_matrix",
+        "royalty_ledger",
+        "final_trace_packet"
+      ],
+      "properties": {
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "input_packet": {
+          "$ref": "#/$defs/InputPacket"
+        },
+        "origin_record": {
+          "$ref": "#/$defs/OriginRecord"
+        },
+        "structure_blueprint": {
+          "$ref": "#/$defs/StructureBlueprint"
+        },
+        "refined_output": {
+          "$ref": "#/$defs/RefinedOutput"
+        },
+        "evaluation_report": {
+          "$ref": "#/$defs/EvaluationReport"
+        },
+        "contribution_matrix": {
+          "$ref": "#/$defs/ContributionMatrix"
+        },
+        "royalty_ledger": {
+          "$ref": "#/$defs/RoyaltyLedger"
+        },
+        "final_trace_packet": {
+          "$ref": "#/$defs/FinalTracePacket"
+        }
+      }
+    }
+  }
+}
